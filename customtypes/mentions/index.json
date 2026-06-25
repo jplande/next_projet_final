@@ -1,14 +1,39 @@
 {
   "format": "page",
   "id": "mentions",
+  "label": "Mentions légales",
+  "repeatable": false,
+  "status": true,
   "json": {
     "Main": {
-      "slices": {
+      "title": {
+        "type": "Text",
         "config": {
-          "choices": {}
-        },
-        "fieldset": "Slice Zone",
-        "type": "Slices"
+          "label": "Titre",
+          "placeholder": "Mentions Légales"
+        }
+      },
+      "sections": {
+        "type": "Group",
+        "config": {
+          "label": "Sections",
+          "fields": {
+            "section_title": {
+              "type": "Text",
+              "config": {
+                "label": "Titre de section",
+                "placeholder": "Lorem Ipsum"
+              }
+            },
+            "section_content": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Contenu",
+                "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+              }
+            }
+          }
+        }
       }
     },
     "SEO & Metadata": {
@@ -38,8 +63,5 @@
         "type": "Image"
       }
     }
-  },
-  "label": "mentions",
-  "repeatable": false,
-  "status": true
+  }
 }

@@ -1,17 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { createClient } from "@/prismicio";
 
+export default async function Header() {
+  const client = createClient();
+  const menu = await client.getSingle("menu").catch(() => null);
+  const logoUrl = menu?.data.image_logo?.url;
 
- //const menu= await client.getSingle("menu");
-
-export default function Header() {
   return (
     <header>
       <nav className="bg-brand-navy border-b-4 border-brand-blue px-6 py-4 flex items-center justify-between">
         <Link href="/">
           <Image
-            src="/ui/dev_logo.svg"
-            alt="DEV Logo"
+            src={logoUrl ?? "/ui/dev_logo.svg"}
+            alt={menu?.data.image_logo?.alt ?? "DEV Logo"}
             width={80}
             height={40}
             priority
@@ -30,17 +32,6 @@ export default function Header() {
           </svg>
         </Link>
       </nav>
-
-      <div className="relative w-full">
-        <Image
-          src="/ui/image_acceuil.svg"
-          alt="Bannière d'accueil"
-          width={1440}
-          height={300}
-          className="w-full object-cover"
-          priority
-        />
-      </div>
     </header>
   );
 }

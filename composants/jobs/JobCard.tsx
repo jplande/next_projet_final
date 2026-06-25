@@ -1,7 +1,13 @@
 import Link from "next/link";
-import type { Job } from "./types";
 
-/** Formate une date ISO en JJ/MM/AAAA (format de la maquette). */
+export type JobCardData = {
+  uid: string;
+  title: string;
+  date: string | null;
+  technologies: Array<{ name: string; uid: string }>;
+  excerpt: string;
+};
+
 function formatDate(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
@@ -12,91 +18,34 @@ function formatDate(iso: string): string {
   });
 }
 
-function CalendarIcon() {
+export default function JobCard({ job }: { job: JobCardData }) {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <path d="M16 2v4M8 2v4M3 10h18" />
-    </svg>
-  );
-}
+    <article className="flex flex-col gap-3 bg-white p-5 border border-gray-200">
+      <Link
+        href={`/offres/${job.uid}`}
+        className="text-xl font-bold text-brand-navy hover:underline"
+      >
+        {job.title}
+      </Link>
 
-function CodeIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m8 16-4-4 4-4M16 8l4 4-4 4" />
-    </svg>
-  );
-}
+      {job.date && (
+        <p className="text-sm text-brand-blue">{formatDate(job.date)}</p>
+      )}
 
-function BookmarkIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-}
+      {job.technologies.length > 0 && (
+        <p className="text-sm text-brand-blue">
+          {job.technologies.map((t, i) => (
+            <span key={t.uid}>
+              <Link href={`/tags/${t.uid}`} className="hover:underline">
+                {t.name}
+              </Link>
+              {i < job.technologies.length - 1 && ", "}
+            </span>
+          ))}
+        </p>
+      )}
 
-export default function JobCard({ job }: { job: Job }) {
-  return (
-    <article className="flex flex-col gap-3 rounded-md bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex items-start justify-between gap-2">
-        <Link
-          href={`/offres/${job.uid}`}
-          className="text-xl font-bold leading-snug text-brand-navy hover:underline"
-        >
-          {job.title}
-        </Link>
-        <button
-          type="button"
-          aria-label="Épingler l'offre"
-          className="shrink-0 text-brand-navy/80 transition-colors hover:text-brand-blue"
-        >
-          <BookmarkIcon />
-        </button>
-      </div>
-
-      <p className="flex items-center gap-2 text-sm font-medium text-brand-blue">
-        <CalendarIcon />
-        {formatDate(job.date)}
-      </p>
-
-      <p className="flex items-center gap-2 text-sm font-medium text-brand-blue">
-        <CodeIcon />
-        {job.technologies.join(", ")}
-      </p>
-
-      <p className="text-sm leading-relaxed text-zinc-600">{job.description}</p>
+      <p className="text-sm text-zinc-600">{job.excerpt}</p>
     </article>
   );
 }

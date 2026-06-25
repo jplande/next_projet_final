@@ -1,14 +1,23 @@
 {
   "format": "page",
   "id": "tag",
+  "label": "Tag / Technologie",
+  "repeatable": true,
+  "status": true,
   "json": {
     "Main": {
-      "slices": {
+      "uid": {
+        "type": "UID",
         "config": {
-          "choices": {}
-        },
-        "fieldset": "Slice Zone",
-        "type": "Slices"
+          "label": "UID"
+        }
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Nom",
+          "placeholder": "NextJS"
+        }
       }
     },
     "SEO & Metadata": {
@@ -38,8 +47,5 @@
         "type": "Image"
       }
     }
-  },
-  "label": "tag",
-  "repeatable": false,
-  "status": true
+  }
 }

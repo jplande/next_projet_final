@@ -152,6 +152,17 @@ type ListeDocumentDataSlicesSlice = never;
  */
 interface ListeDocumentData {
   /**
+   * Titre field in *liste*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Offres d'emploi
+   * - **API ID Path**: liste.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
    * Slice Zone field in *liste*
    *
    * - **Field Type**: Slice Zone
@@ -206,23 +217,57 @@ interface ListeDocumentData {
 export type ListeDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<ListeDocumentData>, "liste", Lang>;
 
-type MentionsDocumentDataSlicesSlice = never;
+/**
+ * Item in *Mentions légales → Sections*
+ */
+export interface MentionsDocumentDataSectionsItem {
+  /**
+   * Titre de section field in *Mentions légales → Sections*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Lorem Ipsum
+   * - **API ID Path**: mentions.sections[].section_title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  section_title: prismic.KeyTextField;
+
+  /**
+   * Contenu field in *Mentions légales → Sections*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: mentions.sections[].section_content
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  section_content: prismic.RichTextField;
+}
 
 /**
  * Content for mentions documents
  */
 interface MentionsDocumentData {
   /**
-   * Slice Zone field in *mentions*
+   * Titre field in *Mentions légales*
    *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: mentions.slices[]
+   * - **Field Type**: Text
+   * - **Placeholder**: Mentions Légales
+   * - **API ID Path**: mentions.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  slices: prismic.SliceZone<MentionsDocumentDataSlicesSlice>; /**
-   * Meta Title field in *mentions*
+  title: prismic.KeyTextField;
+
+  /**
+   * Sections field in *Mentions légales*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: mentions.sections[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/group
+   */
+  sections: prismic.GroupField<Simplify<MentionsDocumentDataSectionsItem>>; /**
+   * Meta Title field in *Mentions légales*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -233,7 +278,7 @@ interface MentionsDocumentData {
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *mentions*
+   * Meta Description field in *Mentions légales*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -244,7 +289,7 @@ interface MentionsDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *mentions*
+   * Meta Image field in *Mentions légales*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -364,23 +409,69 @@ export type ProfilDocument<Lang extends string = string> =
     Lang
   >;
 
-type SingleDocumentDataSlicesSlice = never;
+/**
+ * Item in *Offre d'emploi → Technologies*
+ */
+export interface SingleDocumentDataTagsItem {
+  /**
+   * Tag field in *Offre d'emploi → Technologies*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: single.tags[].tag
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  tag: prismic.ContentRelationshipField<"tag">;
+}
 
 /**
  * Content for single documents
  */
 interface SingleDocumentData {
   /**
-   * Slice Zone field in *single*
+   * Titre field in *Offre d'emploi*
    *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: single.slices[]
+   * - **Field Type**: Text
+   * - **Placeholder**: Développeur NextJS
+   * - **API ID Path**: single.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  slices: prismic.SliceZone<SingleDocumentDataSlicesSlice>; /**
-   * Meta Title field in *single*
+  title: prismic.KeyTextField;
+
+  /**
+   * Date de publication field in *Offre d'emploi*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: *None*
+   * - **API ID Path**: single.date
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/date
+   */
+  date: prismic.DateField;
+
+  /**
+   * Description field in *Offre d'emploi*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: single.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Technologies field in *Offre d'emploi*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: single.tags[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/group
+   */
+  tags: prismic.GroupField<Simplify<SingleDocumentDataTagsItem>>; /**
+   * Meta Title field in *Offre d'emploi*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -391,7 +482,7 @@ interface SingleDocumentData {
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *single*
+   * Meta Description field in *Offre d'emploi*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -402,7 +493,7 @@ interface SingleDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *single*
+   * Meta Image field in *Offre d'emploi*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -417,35 +508,33 @@ interface SingleDocumentData {
  * single document from Prismic
  *
  * - **API ID**: `single`
- * - **Repeatable**: `false`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type SingleDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<SingleDocumentData>,
     "single",
     Lang
   >;
-
-type TagDocumentDataSlicesSlice = never;
 
 /**
  * Content for tag documents
  */
 interface TagDocumentData {
   /**
-   * Slice Zone field in *tag*
+   * Nom field in *Tag / Technologie*
    *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: tag.slices[]
+   * - **Field Type**: Text
+   * - **Placeholder**: NextJS
+   * - **API ID Path**: tag.name
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  slices: prismic.SliceZone<TagDocumentDataSlicesSlice>; /**
-   * Meta Title field in *tag*
+  name: prismic.KeyTextField; /**
+   * Meta Title field in *Tag / Technologie*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -456,7 +545,7 @@ interface TagDocumentData {
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *tag*
+   * Meta Description field in *Tag / Technologie*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -467,7 +556,7 @@ interface TagDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *tag*
+   * Meta Image field in *Tag / Technologie*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -482,13 +571,13 @@ interface TagDocumentData {
  * tag document from Prismic
  *
  * - **API ID**: `tag`
- * - **Repeatable**: `false`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type TagDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<TagDocumentData>, "tag", Lang>;
+  prismic.PrismicDocumentWithUID<Simplify<TagDocumentData>, "tag", Lang>;
 
 export type AllDocumentTypes =
   | HomepageDocument
@@ -528,7 +617,7 @@ declare module "@prismicio/client" {
       ListeDocumentDataSlicesSlice,
       MentionsDocument,
       MentionsDocumentData,
-      MentionsDocumentDataSlicesSlice,
+      MentionsDocumentDataSectionsItem,
       MenuDocument,
       MenuDocumentData,
       ProfilDocument,
@@ -536,10 +625,9 @@ declare module "@prismicio/client" {
       ProfilDocumentDataSlicesSlice,
       SingleDocument,
       SingleDocumentData,
-      SingleDocumentDataSlicesSlice,
+      SingleDocumentDataTagsItem,
       TagDocument,
       TagDocumentData,
-      TagDocumentDataSlicesSlice,
       AllDocumentTypes,
     };
   }
