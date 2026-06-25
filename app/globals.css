@@ -10,6 +10,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Charte DEV (maquette Figma) */
+  --color-brand-blue: #2175d9;
+  --color-brand-navy: #0f1941;
+  --color-brand-cream: #f7f5f0;
 }
 
 @media (prefers-color-scheme: dark) {
