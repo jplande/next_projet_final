@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+
+ //const menu= await client.getSingle("menu");
+
 export default function Header() {
   return (
     <header>
