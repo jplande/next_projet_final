@@ -20,7 +20,7 @@ export default async function Header() {
           />
         </Link>
 
-        <Link href="/login" aria-label="Connexion">
+        <Link href="/profil" aria-label="Profil">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="32"

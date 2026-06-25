@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { isFilled, type FilledContentRelationshipField } from "@prismicio/client";
+import { asText, isFilled, type FilledContentRelationshipField } from "@prismicio/client";
 import { PrismicRichText } from "@prismicio/react";
 import { createClient } from "@/prismicio";
 import ApplicationForm from "@/composants/jobs/ApplicationForm";
@@ -80,7 +80,13 @@ export default async function OffrePage({ params }: { params: Promise<{ uid: str
           />
         </div>
 
-        <ApplicationForm jobTitle={job.data.title ?? ""} />
+        <ApplicationForm job={{
+          uid: job.uid,
+          title: job.data.title ?? "",
+          date: job.data.date ?? null,
+          technologies,
+          excerpt: asText(job.data.description).slice(0, 150),
+        }} />
       </section>
     </main>
   );
