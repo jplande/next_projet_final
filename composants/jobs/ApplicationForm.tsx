@@ -2,21 +2,55 @@
 
 import { useState } from "react";
 
-export default function ApplicationForm({ jobTitle }: { jobTitle: string }) {
+export type ApplicationEntry = {
+  uid: string;
+  title: string;
+  date: string | null;
+  technologies: Array<{ name: string; uid: string }>;
+  excerpt: string;
+  appliedAt: string;
+};
+
+const HISTORY_KEY = "candidatures_history";
+
+export function getApplicationHistory(): ApplicationEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+}
+
+type Props = {
+  job: {
+    uid: string;
+    title: string;
+    date: string | null;
+    technologies: Array<{ name: string; uid: string }>;
+    excerpt: string;
+  };
+};
+
+export default function ApplicationForm({ job }: Props) {
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!message.trim()) return;
-    // TODO: brancher sur un vrai endpoint (email, API, etc.)
+
+    const history = getApplicationHistory();
+    const entry: ApplicationEntry = { ...job, appliedAt: new Date().toISOString() };
+    localStorage.setItem(HISTORY_KEY, JSON.stringify([entry, ...history]));
+
     setSent(true);
   }
 
   if (sent) {
     return (
       <p className="text-sm text-brand-blue font-medium mt-8">
-        Candidature envoyée pour « {jobTitle} ».
+        Candidature envoyée pour « {job.title} ».
       </p>
     );
   }
